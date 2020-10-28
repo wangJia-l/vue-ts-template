@@ -3,12 +3,12 @@
  */
 module.exports = function(options){
 	return [
-		// {
-		// 	type: 'input',
-		// 	name: 'name',
-		// 	message: '项目名称(必须与git名字相同)',
-		// 	default: options.name || ''
-		// },
+		{
+			type: 'input',
+			name: 'name',
+			message: '项目名称',
+			default: options.name || ''
+		},
 		// {
 		// 	type: 'input',
 		// 	name: 'description',
