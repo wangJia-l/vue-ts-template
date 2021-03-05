@@ -88,7 +88,7 @@ export default class RoboPassportLogin extends Vue {
 }
 </script>
 
-<style lang="scss">
+<style lang="less">
 /**
  * 百度 Passport 登陆样式
  */

@@ -23,7 +23,7 @@ export default class RoboMailTextLink extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="less">
 .robo-mail-text-link {
     color: #8e9aae;
     transition: 0.1s;

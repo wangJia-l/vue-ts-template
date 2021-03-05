@@ -19,7 +19,7 @@ export default class RoboInfoFlowButton extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="less">
 .robo-info-flow {
     display: inline-block;
     float: right;

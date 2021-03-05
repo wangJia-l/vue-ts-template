@@ -46,7 +46,7 @@ export default class MailButton extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="less">
 .robo-mail-buttons-container {
     display: flex;
     align-items: center;

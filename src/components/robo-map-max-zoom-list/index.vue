@@ -46,7 +46,7 @@ export default class RoboMapMaxZoomList extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="less">
 $illegalParkingColor: #48a0ff;
 $abandonedObjectColor: #ff9421;
 $trafficLightingColor: #fbfbfb;

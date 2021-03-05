@@ -11,7 +11,11 @@ import {Component, Vue} from 'vue-property-decorator';
 export default class App extends Vue {}
 </script>
 
-<style lang="scss">
+<style lang="less">
+@mainTextColor: #999;
+
+@mainBackgroundColor: #fff;
+
 html,
 body {
     padding: 0;
@@ -30,7 +34,7 @@ body {
     height: 100%;
     min-width: 1280px;
     font-weight: normal;
-    background: $mainBackgroundColor;
+    background: @mainBackgroundColor;
 }
 
 input::-webkit-credentials-auto-fill-button {

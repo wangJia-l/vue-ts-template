@@ -70,7 +70,11 @@ export default class Root extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="less">
+@mainTextColor: #999;
+
+@mainBackgroundColor: #fff;
+
 .root-container {
     display: flex;
     flex-direction: column;
@@ -87,7 +91,7 @@ export default class Root extends Vue {
             height: inherit;
             line-height: inherit;
             font-size: 20px;
-            color: $mainTextColor;
+            color: @mainTextColor;
         }
 
         .collapse-button {

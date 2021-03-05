@@ -18,7 +18,7 @@ export default class InfoFlowTextLink extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="less">
 .robo-info-flow-text-link {
     color: #74b2f3;
     transition: 0.2s;

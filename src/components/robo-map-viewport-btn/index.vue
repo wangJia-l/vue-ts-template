@@ -48,7 +48,7 @@ export default class RoboViewportBtn extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="less">
 .robo-map-viewport-btn {
     display: flex;
     border-radius: px2vw(26px);

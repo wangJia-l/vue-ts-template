@@ -17,7 +17,10 @@ import {
     Alert,
     Form,
     FormItem,
-    MessageBox
+    MessageBox,
+    Dropdown,
+    DropdownItem,
+    DropdownMenu
 } from 'element-ui';
 
 [
@@ -35,7 +38,10 @@ import {
     Loading,
     Alert,
     Form,
-    FormItem
+    FormItem,
+    Dropdown,
+    DropdownItem,
+    DropdownMenu
 ].forEach((Comp) => Vue.use(Comp));
 
 Vue.prototype.$notify = Notification;

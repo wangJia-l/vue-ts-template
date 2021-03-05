@@ -23,7 +23,7 @@ export default class RoboMapLegend extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="less">
 .robo-map-legend {
     display: flex;
     align-items: center;

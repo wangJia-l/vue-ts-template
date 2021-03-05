@@ -28,7 +28,7 @@ export default class RoboMapResizeBtn extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="less">
 .robo-map-resize-btn {
     width: 0.4rem;
     height: 0.8rem;

@@ -120,7 +120,7 @@ export default class RoboPercentCircle extends Mixins(EchartMixin) {
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="less">
 .chart-container {
     position: relative;
     width: 100%;

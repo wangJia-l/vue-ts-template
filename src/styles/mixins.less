@@ -2,7 +2,7 @@
  * 可复用样式类, 在 SCSS 文件中可直接使用，例如 @include absCenter()
  */
 // 绝对定位居中
-@mixin absCenter {
+.absCenter {
     position: absolute;
     left: 50%;
     top: 50%;
@@ -10,46 +10,46 @@
 }
 
 // 单行文字剪切
-@mixin text-overflow {
+.text-overflow {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
 
 // 多行文字剪切
-@mixin text-overflow-multiple($line) {
+.text-overflow-multiple(@line) {
     display: -webkit-box;
-    -webkit-line-clamp: $line;
+    -webkit-line-clamp: @line;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
 // 线性渐变
-@mixin linear-transition($duration: 0.3s) {
-    transition: all linear $duration;
+.linear-transition(@duration: 0.3s) {
+    transition: all linear @duration;
 }
 
 // 按钮交互优化样式
-@mixin nice-btn {
+.nice-btn {
     cursor: pointer;
     user-select: none;
 }
 
 // 地图文本框小三角标
-@mixin map-label-triangle($borderWidth) {
+.map-label-triangle(@borderWidth) {
     position: absolute;
     bottom: 0;
     left: 50%;
     display: block;
     width: 0;
     height: 0;
-    border: $borderWidth solid transparent;
+    border: @borderWidth solid transparent;
     border-top-color: inherit;
     transform: translate(-50%, 100%);
 }
 
 // 针对 12px 的字体尺寸
-@mixin fontSize12() {
+.fontSize12() {
     font-size: px2vw(12px);
 
     @media screen and (max-width: 1920px) {
@@ -58,7 +58,7 @@
 }
 
 // 竖向分割线
-@mixin gutter-vertical {
+.gutter-vertical {
     font-size: 0;
     text-align: center;
     height: px2vw(64px);

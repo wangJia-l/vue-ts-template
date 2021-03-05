@@ -21,7 +21,7 @@ export default class Robo403404 extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="less">
 .robo-403-404 {
     height: 100%;
     display: flex;
