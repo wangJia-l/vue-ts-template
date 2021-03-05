@@ -12,10 +12,6 @@ export default class App extends Vue {}
 </script>
 
 <style lang="less">
-@mainTextColor: #999;
-
-@mainBackgroundColor: #fff;
-
 html,
 body {
     padding: 0;

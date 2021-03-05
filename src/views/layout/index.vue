@@ -71,10 +71,6 @@ export default class Root extends Vue {
 </script>
 
 <style scoped lang="less">
-@mainTextColor: #999;
-
-@mainBackgroundColor: #fff;
-
 .root-container {
     display: flex;
     flex-direction: column;
