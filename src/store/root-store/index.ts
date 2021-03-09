@@ -8,115 +8,140 @@ import {
     RootGetters,
     RootMutations,
     RootActions,
-    RootLoginResponse
+    RootLoginResponse,
+    RootChangePwdResponseProcessed
 } from '@/store/root-store/interface-types';
 import {
-    LOGIN_MUTATION,
-    LOGIN_ACTION,
-    LOGIN_URL,
-    USER_PERMISSION_MUTATION,
-    USER_PERMISSION_ACTION,
-    USER_PERMISSION_URL,
-    LOGOUT_MUTATION,
-    LOGOUT_ACTION,
-    LOGOUT_URL,
-    WS_MUTATION,
-    WS_CONNECT_ACTION,
-    WS_DISCONNECT_ACTION
-} from './store-types';
-import {request, WS_URLS, wsConnectHelper} from '@/utils';
-
-import {USER_PERMISSION_HASH} from '@/config';
-
-const KEY_PREFIX = `_robotaxi_`;
-const TOKEN_KEY = `${KEY_PREFIX}token`;
-const USERNAME_KEY = `${KEY_PREFIX}user_name`;
+    ROOT_UPDATE_USER_INFO_MUTATION,
+    ROOT_LOGIN_URL,
+    ROOT_LOGIN_ACTION,
+    ROOT_LOGOUT_URL,
+    ROOT_LOGOUT_MUTATION,
+    ROOT_LOGOUT_ACTION,
+    ROOT_SYSTEM_TIME_ACTION,
+    ROOT_SYSTEM_TIME_URL,
+    FETCH_OTE_TOKEN_URL,
+    FETCH_OTE_TOKEN_ACTION,
+    ROOT_CHANGE_OWN_PASSWORD_URL,
+    ROOT_CHANGE_OWN_PASSWORD_ACTION
+} from '@/store/root-store/store-types';
+import {request} from '@/utils';
 
 const state: RootState = {
-    token: window.localStorage.getItem(TOKEN_KEY) || '',
-    userName: window.localStorage.getItem(USERNAME_KEY) || '',
-    permission: -1,
-    ws: null
+    token: window.localStorage.getItem('v2xToken') || '',
+    username: window.localStorage.getItem('v2xUsername') || '',
+    role: window.localStorage.getItem('v2xRole') || '',
+    grantedResouse: []
 };
 
 const getters: RootGetters = {
     isLogin: () => () => {
-        const token = window.localStorage.getItem(TOKEN_KEY);
+        const token = window.localStorage.getItem('v2xToken');
         return !!token;
     },
-    isAuthorized(state) {
-        const visiblePermission: number[] = [USER_PERMISSION_HASH.admin, USER_PERMISSION_HASH.user];
-        return visiblePermission.includes(+state.permission);
+    isAdmin: () => () => {
+        const role = window.localStorage.getItem('v2xRole');
+        return role === 'admin';
+    },
+    getGrantedResouse: (state) => () => {
+        const grantedResouse = window.localStorage.getItem('v2xGrantedResouse');
+        return grantedResouse;
     }
 };
 
 const mutations: RootMutations = {
     // 更新用户信息
-    [LOGIN_MUTATION](state, {token, userName}) {
+    [ROOT_UPDATE_USER_INFO_MUTATION](state, {token, username, role, grantedResouse}) {
         state.token = token || state.token;
-        state.userName = userName || state.userName;
-        window.localStorage.setItem(TOKEN_KEY, state.token);
-        window.localStorage.setItem(USERNAME_KEY, state.userName);
-    },
-    // 更新权限信息
-    [USER_PERMISSION_MUTATION](state, permission) {
-        state.permission = permission;
+        state.username = username || state.username;
+        state.role = role ? role.toLocaleLowerCase() : state.role;
+        state.grantedResouse = grantedResouse || state.grantedResouse;
+        window.localStorage.setItem(
+            'v2xToken',
+            state.token.startsWith('Bearer ') ? state.token : 'Bearer ' + state.token
+        );
+        window.localStorage.setItem('v2xUsername', state.username);
+        window.localStorage.setItem('v2xRole', state.role);
+        window.localStorage.setItem('v2xGrantedResouse', JSON.stringify(state.grantedResouse));
     },
     // 退出登录
-    [LOGOUT_MUTATION](state) {
+    [ROOT_LOGOUT_MUTATION](state) {
         state.token = '';
-        state.userName = '';
-        state.permission = -1;
-        window.localStorage.removeItem(TOKEN_KEY);
-        window.localStorage.removeItem(USERNAME_KEY);
-    },
-    // 保存 Websocket 实例
-    [WS_MUTATION](state, ws) {
-        state.ws = ws;
+        state.username = '';
+        state.role = '';
+        state.grantedResouse = [];
+        window.localStorage.removeItem('v2xToken');
+        window.localStorage.removeItem('v2xUsername');
+        window.localStorage.removeItem('v2xRole');
+        window.localStorage.removeItem('v2xGrantedResouse');
     }
 };
 
 const actions: RootActions = {
     // 登录
-    async [LOGIN_ACTION]({commit}) {
-        const {code, data} = await request.post<RootLoginResponse>(LOGIN_URL);
-        if (code === 0 && data) {
-            const {token = '', userName = ''} = data;
-            commit(LOGIN_MUTATION, {token, userName});
+    async [ROOT_LOGIN_ACTION]({commit}, {username, password, clientId, grantType}) {
+        const {code, data, msg} = await request.post<RootLoginResponse>(ROOT_LOGIN_URL, {
+            username,
+            password,
+            clientId,
+            grantType
+        });
+        if (+code === 0 && data) {
+            const {accessToken = '', userInfo, hasResources} = data;
+            commit(ROOT_UPDATE_USER_INFO_MUTATION, {
+                token: accessToken,
+                username: userInfo.username,
+                role: '',
+                grantedResouse: hasResources
+            });
         }
-        return code === 0;
-    },
-    // 获取用户权限
-    async [USER_PERMISSION_ACTION]({commit}, userName) {
-        const {code, data} = await request.post<{role: string}>(USER_PERMISSION_URL, {userName});
-        if (code === 0 && data) {
-            commit(USER_PERMISSION_MUTATION, data.role);
-        } else {
-            commit(USER_PERMISSION_MUTATION, 'user');
-        }
-        return code === 0;
+        return {
+            isLoginSuccess: +code === 0,
+            msg: msg ? msg : '账号或密码错误，请重新输入',
+            userStatus: data ? data.userInfo.status : 0
+        };
     },
     // 退出登录
-    async [LOGOUT_ACTION]({commit}) {
-        const {code} = await request.post<{}>(LOGOUT_URL);
-        if (code === 0) {
-            commit(LOGOUT_MUTATION);
+    async [ROOT_LOGOUT_ACTION]({commit}) {
+        // 退出不再走后端
+        // const {code} = await request.post<{}>(ROOT_LOGOUT_URL);
+        const code = 0;
+        if (+code === 0) {
+            commit(ROOT_LOGOUT_MUTATION);
         }
-        return code === 0;
+        return +code === 0;
     },
-    // 连接 Websocket
-    async [WS_CONNECT_ACTION]({commit, state}) {
-        if (!state.ws) {
-            const ws = await wsConnectHelper(WS_URLS.default);
-            commit(WS_MUTATION, ws);
+    // 获取系统时间
+    async [ROOT_SYSTEM_TIME_ACTION]({commit}, noErrorHint = true) {
+        const {data, code} = await request.get<{time: number}>(ROOT_SYSTEM_TIME_URL, undefined, {
+            extraInfo: {noGlobalLoading: true, noErrorHint}
+        });
+        if (+code === 0 && data) {
+            const {time} = data;
+            return +time;
         }
+        return -1;
     },
-    // 断开 Websocket
-    async [WS_DISCONNECT_ACTION]({commit, state}) {
-        if (state.ws && typeof state.ws.close === 'function') {
-            state.ws.close();
-            commit(WS_MUTATION, null);
+    // 获取登陆 OTE Token
+    async [FETCH_OTE_TOKEN_ACTION]() {
+        const {data, code} = await request.get<string>(FETCH_OTE_TOKEN_URL, undefined, {
+            extraInfo: {noGlobalLoading: true}
+        });
+        if (+code === 0 && data) {
+            return data;
         }
+        return '';
+    },
+    // 用户修改自己的密码
+    async [ROOT_CHANGE_OWN_PASSWORD_ACTION]({commit}, {oldPassword, newPassword}) {
+        const {code, msg} = await request.post<any>(ROOT_CHANGE_OWN_PASSWORD_URL, {
+            oldPassword,
+            newPassword
+        });
+        return {
+            code: +code,
+            msg: msg ? msg : '密码修改失败'
+        };
     }
 };
 

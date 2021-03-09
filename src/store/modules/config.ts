@@ -1,1 +1,0 @@
-export const STORE_EXAMPLE = 'STORE_EXAMPLE';

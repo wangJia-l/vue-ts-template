@@ -209,14 +209,12 @@ var isMapGl = RMap === window.BMapGL;
             }
         }
 
-        setTimeout(() => {
-            var len = this._markers.length;
-            for (var i = 0; i < len; i++) {
-                if (this._clusters[i]) {
-                    this._clusters[i].render();
-                }
+        var len = this._markers.length;
+        for (var i = 0; i < len; i++) {
+            if (this._clusters[i]) {
+                this._clusters[i].render();
             }
-        });
+        }
     };
 
     /**
@@ -492,7 +490,11 @@ var isMapGl = RMap === window.BMapGL;
         //this._map.addOverlay(this._clusterMarker);
 
         var that = this;
-        this._clusterMarker.addEventListener('click', function(event) {
+        this._clusterMarker.addEventListener('touchend', clickHandler);
+
+        this._clusterMarker.addEventListener('click', clickHandler);
+
+        function clickHandler(event) {
             const currentZoom = that._map.getZoom();
             // 处理两个点完全重合的情况，此时在最大缩放条件下，仍然需要聚合，执行传入的 callback
             if (currentZoom === that._mapMaxZoom) {
@@ -504,7 +506,7 @@ var isMapGl = RMap === window.BMapGL;
                 const boundary = [bound.getSouthWest(), bound.getNorthEast()];
                 that._map.setViewport(boundary, {margins: that.margins, enableAnimation: true});
             }
-        });
+        }
 
         const _hoverStyles = this._markerClusterer._hoverStyles;
         const addHoverEvent = Array.isArray(_hoverStyles) && _hoverStyles.length > 0;
@@ -589,10 +591,9 @@ var isMapGl = RMap === window.BMapGL;
                 this._map.addOverlay(this._markers[i]);
             }
         } else {
-            // for 循环的目的是为清除 cluster 添加 markers，清除原有的 marker，观察是否会降低性能
-            for (var i = 0; i < len; i++) {
-                this._map.removeOverlay(this._markers[i]);
-            }
+            // 在动态添加数据时，由单个 marker 变为聚合点时，单个 marker 需要被清除，否则会遗留单个 marker 点
+            !this._isReal && this._map.removeOverlay(this._markers[0]);
+
             this._map.addOverlay(this._clusterMarker);
             this._isReal = true;
             this.updateClusterMarker();

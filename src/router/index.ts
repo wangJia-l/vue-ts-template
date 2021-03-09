@@ -1,36 +1,40 @@
 import Vue from 'vue';
 import VueRouter, {RouteConfig} from 'vue-router';
-import {lazyLoadHelper} from '@/utils';
+import {CommonUrls, lazyLoadHelper} from '@/utils';
 import {beforeEachCallback, beforeResolveCallback, afterEachCallback} from '@/router/router-guards/index';
-import {CommonUrls} from '@/utils';
 
-import exampleRoutes from '@/router/modules/example.ts';
+import {deviceOperationRoutes} from '@/router/modules/device-operation.ts';
 
 Vue.use(VueRouter);
 
 const routes: RouteConfig[] = [
     {
+        path: CommonUrls.Root,
+        redirect: '/login'
+    },
+    {
         path: CommonUrls.Login,
         component: lazyLoadHelper('common/login')
     },
     {
-        path: CommonUrls.Root,
-        component: lazyLoadHelper('layout/index'),
+        // 设备运维管理
+        path: CommonUrls.DeviceOperation,
+        component: lazyLoadHelper('device-operation/index'),
         children: [
-            ...exampleRoutes,
-            {
-                path: CommonUrls.Forbidden,
-                component: lazyLoadHelper('common/403')
-            },
-            {
-                path: CommonUrls.NotFound,
-                component: lazyLoadHelper('common/404')
-            },
+            ...deviceOperationRoutes,
             {
                 path: '*',
-                redirect: CommonUrls.NotFound
+                component: lazyLoadHelper('common/404')
             }
         ]
+    },
+    {
+        path: CommonUrls.NotFound,
+        component: lazyLoadHelper('common/404')
+    },
+    {
+        path: '*',
+        redirect: CommonUrls.NotFound
     }
 ];
 

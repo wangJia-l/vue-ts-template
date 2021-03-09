@@ -16,6 +16,7 @@ declare module 'axios' {
     export interface CustomSuccessData<T> {
         code: number;
         msg?: string;
+        message?: string;
         data?: T;
         [keys: string]: any;
     }
@@ -25,18 +26,5 @@ declare module 'axios' {
 declare module 'vue/types/vue' {
     interface Vue {
         $fullLoading(): ElLoadingComponent;
-    }
-}
-
-// 添加全局属性
-declare global {
-    interface Window {
-        BMap: any;
-        BMapGL: any;
-    }
-
-    interface WsResponse<T> {
-        ext: {type: number; clear?: any};
-        data: T;
     }
 }

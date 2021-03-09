@@ -1,0 +1,27 @@
+// 角色列表-查询
+export const FETCH_ROLES_MANAGEMENT_LIST_URL = '/auth/role/list';
+export const FETCH_ROLES_MANAGEMEN_LIST_ACTION = 'FETCH_ROLES_MANAGEMEN_LIST_ACTION';
+
+// 角色列表-新增
+export const ADD_ROLES_MANAGEMENT_LIST_URL = '/auth/role/add';
+export const ADD_ROLES_MANAGEMEN_LIST_ACTION = 'ADD_ROLES_MANAGEMEN_LIST_ACTION';
+
+// 角色列表-编辑
+export const UPDATE_ROLES_MANAGEMENT_LIST_URL = '/auth/role/update';
+export const UPDATE_ROLES_MANAGEMEN_LIST_ACTION = 'UPDATE_ROLES_MANAGEMEN_LIST_ACTION';
+
+// 角色列表-删除
+export const DELETE_ROLES_MANAGEMENT_LIST_URL = '/auth/role/del';
+export const DELETE_ROLES_MANAGEMEN_LIST_ACTION = 'DELETE_ROLES_MANAGEMEN_LIST_ACTION';
+
+// 角色列表-权限设置-查看
+export const FETCH_ROLES_MANAGEMENT_AUTH_LIST_URL = '/auth/roleResource/list';
+export const FETCH_ROLES_MANAGEMEN_AUTH_LIST_ACTION = 'FETCH_ROLES_MANAGEMEN_AUTH_LIST_ACTION';
+
+// 角色列表-权限设置-更新
+export const UPDATE_ROLES_MANAGEMENT_AUTH_LIST_URL = '/auth/roleResource/add';
+export const UPDATE_ROLES_MANAGEMEN_AUTH_LIST_ACTION = 'UPDATE_ROLES_MANAGEMEN_AUTH_LIST_ACTION';
+
+// 获取权限信息-查看个人权限
+export const FETCH_MY_INFO_AUTH_LIST_URL = '/auth/user/userInfo';
+export const FETCH_MY_INFO_AUTH_LIST_ACTION = 'FFETCH_MY_INFO_AUTH_LIST_ACTION';

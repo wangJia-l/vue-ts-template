@@ -4,17 +4,27 @@
 const path = require('path');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
 
+const isDev = process.env.NODE_ENV === 'development';
+
 // 将打包后的 JS/CSS/IMG/FONTS 等资源统一放到 static 目录中
 const ASSERTS_DIR = 'static';
 
 module.exports = {
-    lintOnSave: process.env.NODE_ENV === 'development' ? 'warning' : false,
-    assetsDir: process.env.NODE_ENV !== 'development' ? ASSERTS_DIR : '',
+    lintOnSave: isDev ? 'warning' : false,
+    assetsDir: isDev ? '' : ASSERTS_DIR,
     publicPath: './',
     devServer: {
-        port: 8006,
-        disableHostCheck: true
+        port: 8007,
+        disableHostCheck: true,
+        proxy: {
+            '/inspection': {
+                target: 'http://test-telecontrol.baidu.com',
+                changeOrigin: true,
+                ws: true
+            }
+        }
     },
+    productionSourceMap: false,
     configureWebpack: {
         plugins: [
             new StyleLintPlugin({
@@ -46,7 +56,7 @@ module.exports = {
         }
 
         // 移除 prefetch 插件
-        config.plugins.delete('prefetch');
+        // config.plugins.delete('prefetch');
     }
 };
 
@@ -55,9 +65,13 @@ function addStyleResource(rule) {
         .loader('style-resources-loader')
         .options({
             patterns: [
-                path.resolve(__dirname, './src/styles/variables.less'),
-                path.resolve(__dirname, './src/styles/mixins.less'),
-                path.resolve(__dirname, './src/styles/functions.less'),
+                // path.resolve(__dirname, './src/styles/variables.scss'),
+                // path.resolve(__dirname, './src/styles/mixins.scss'),
+                // path.resolve(__dirname, './src/styles/functions.scss')
+                path.resolve(__dirname, './src/styles/element.less'),
+                path.resolve(__dirname, './src/styles/baidu-map.less'),
+                path.resolve(__dirname, './src/styles/mixins/common-mixins.less'),
+                path.resolve(__dirname, './src/styles/mixins/operation-mixins.less')
             ]
         });
 }

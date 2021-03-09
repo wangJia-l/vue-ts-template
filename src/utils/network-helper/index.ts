@@ -22,13 +22,13 @@ axiosInstance.interceptors.response.use(loadingResponseHandler.onFulfilled, load
 axiosInstance.interceptors.response.use(commonErrorHandler.onFulfilled, commonErrorHandler.onRejected);
 
 // 封装 get 方法
-const get: Get = async (url, params = {}, config) => {
+const get: Get = async (url, params, config) => {
     const response = await axiosInstance.get(url, {params, ...config});
     return response.data;
 };
 
 // 封装 post 方法
-const post: Post = async (url, data = {}, config) => {
+const post: Post = async (url, data, config) => {
     const response = await axiosInstance.post(url, data, {
         ...config
     });
@@ -36,7 +36,7 @@ const post: Post = async (url, data = {}, config) => {
 };
 
 // 封装 put 方法
-const put: Put = async (url, data = {}, config) => {
+const put: Put = async (url, data, config) => {
     const response = await axiosInstance.put(url, data, {
         ...config
     });
@@ -44,7 +44,7 @@ const put: Put = async (url, data = {}, config) => {
 };
 
 // 封装 put 方法
-const del: Del = async (url, data = {}, config) => {
+const del: Del = async (url, data, config) => {
     const response = await axiosInstance.delete(url, {
         data,
         ...config
@@ -53,4 +53,6 @@ const del: Del = async (url, data = {}, config) => {
 };
 
 // 使用 request 统一调用
-export const request = {get, post, del, put};
+const request = {get, post, del, put};
+
+export {request};

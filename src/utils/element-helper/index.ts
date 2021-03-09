@@ -27,6 +27,10 @@ export const clearValidate: (from: ElForm) => void = (form) => {
     form.clearValidate();
 };
 
+export const validateFiled = (form: ElForm, rules: string[]) => {
+    form.validateField(rules);
+};
+
 // 设置 el-table 的 cell 值为空时显示的字符
 export const getElCellEmptyText: GetElCellEmptyText = (row, column, emptyText = '') => {
     const key = column.property || column.prop;

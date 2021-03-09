@@ -1,15 +1,16 @@
 import Vue from 'vue';
-
-import './plugins';
-
 import App from './App.vue';
 import router from './router';
 import store from './store';
 
+import './plugins';
+
 import '@/styles/reset.css';
-import '@/styles/baidu-map.less';
 
 Vue.config.productionTip = false;
+
+import '@/libs/TextIconOverlay.js';
+import '@/libs/MarkerClusterer.js';
 
 // 全局异常处理，可以在此添加异常监控和上报
 Vue.config.errorHandler = function(err, vm, info) {

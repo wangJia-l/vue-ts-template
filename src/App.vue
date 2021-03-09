@@ -17,12 +17,46 @@ body {
     padding: 0;
     margin: 0;
     height: 100%;
+    font-size: 100px;
+}
+
+body {
     font-size: 14px;
 }
 
+@media screen and (max-width: 1441px) {
+    html {
+        font-size: 66px;
+    }
+}
+
+@media screen and (min-width: 1440px) and (max-width: 1921px) {
+    html {
+        font-size: 75px;
+    }
+}
+
+@media screen and (min-width: 1920px) and (max-width: 2561px) {
+    html {
+        font-size: 100px;
+    }
+}
+
+@media screen and (min-width: 2560px) and (max-width: 3841px) {
+    html {
+        font-size: 133px;
+    }
+}
+
+@media screen and (min-width: 3840px) {
+    html {
+        font-size: 200px;
+    }
+}
+
 #app {
-    font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial,
-        sans-serif;
+    font-family: 'PingFangSC-Regular', 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei',
+        '微软雅黑', Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-size: 14px;
@@ -30,7 +64,6 @@ body {
     height: 100%;
     min-width: 1280px;
     font-weight: normal;
-    background: @mainBackgroundColor;
 }
 
 input::-webkit-credentials-auto-fill-button {
@@ -45,20 +78,7 @@ input:focus::-webkit-contacts-auto-fill-button {
     opacity: 0;
 }
 
-// 滚动条样式
-::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-}
-
-::-webkit-scrollbar-track {
-    width: 6px;
-    height: 6px;
-    background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-    border-radius: 5px;
-    background-color: #484b56;
+::-webkit-input-placeholder {
+    color: #999 !important;
 }
 </style>

@@ -1,19 +1,23 @@
-// 登录
-export const LOGIN_URL = '/user/login';
-export const LOGIN_MUTATION = 'LOGIN_MUTATION';
-export const LOGIN_ACTION = 'LOGIN_ACTION';
+// 更新用户信息
+export const ROOT_UPDATE_USER_INFO_MUTATION = 'ROOT_UPDATE_USER_INFO_MUTATION';
 
-// 获取用户权限
-export const USER_PERMISSION_URL = '/user/role';
-export const USER_PERMISSION_MUTATION = 'USER_PERMISSION_MUTATION';
-export const USER_PERMISSION_ACTION = 'USER_PERMISSION_ACTION';
+// 登录
+export const ROOT_LOGIN_URL = '/auth/user/login';
+export const ROOT_LOGIN_ACTION = 'ROOT_LOGIN_ACTION';
 
 // 退出登录
-export const LOGOUT_URL = '/user/logout';
-export const LOGOUT_MUTATION = 'LOGOUT_MUTATION';
-export const LOGOUT_ACTION = 'LOGOUT_ACTION';
+export const ROOT_LOGOUT_URL = '/user/logout';
+export const ROOT_LOGOUT_MUTATION = 'ROOT_LOGOUT_MUTATION';
+export const ROOT_LOGOUT_ACTION = 'ROOT_LOGOUT_ACTION';
 
-// Websocket
-export const WS_MUTATION = 'WS_CLIENT_MUTATION';
-export const WS_CONNECT_ACTION = 'WS_CONNECT_ACTION';
-export const WS_DISCONNECT_ACTION = 'WS_DISCONNECT_ACTION';
+// 获取北京时间
+export const ROOT_SYSTEM_TIME_URL = '/vehicle/system/time';
+export const ROOT_SYSTEM_TIME_ACTION = 'ROOT_SYSTEM_TIME_ACTION';
+
+// 获取登陆 OTE Token
+export const FETCH_OTE_TOKEN_URL = '/user/login/ote';
+export const FETCH_OTE_TOKEN_ACTION = 'FETCH_OTE_TOKEN_ACTION';
+
+// 用户修改自己的密码
+export const ROOT_CHANGE_OWN_PASSWORD_URL = '/auth/user/changeOwnPassword';
+export const ROOT_CHANGE_OWN_PASSWORD_ACTION = 'ROOT_CHANGE_OWN_PASSWORD_ACTION';

@@ -4,8 +4,8 @@
 import {differenceInSecondsHelper} from '@/utils';
 import {debounce, cloneDeep} from 'lodash-es';
 import store from '@/store';
-import {StoreModuleName} from '@/store/modules/types';
-import {storeModules} from '@/store/modules';
+// import {StoreModuleName} from '@/store/modules/types';
+// import {storeModules} from '@/store/modules';
 
 // 防抖
 export const debounceHelper = (func: () => any, wait = 1000, options = {}) => {
@@ -90,11 +90,11 @@ export const getUrlSearchParam: (key: string) => string | null = (key) => {
 };
 
 // 解析 JSON 字符串
-export const parseJSON = (content: string): object | null => {
+export const parseContent = (content: string): {[propName: string]: any} => {
     try {
         return JSON.parse(content);
     } catch {
-        return null;
+        return {};
     }
 };
 
@@ -135,40 +135,22 @@ export const splitArr = <T>(arr: T[], splitNum = 10): T[][] => {
     return result;
 };
 
-// 拼接 BaseUrl
-export const getBaseUrl = (baseUrl: string | undefined, params?: object): string => {
-    let base: string = '';
-    if (baseUrl && baseUrl.startsWith('http')) {
-        base = baseUrl;
-    } else {
-        const {protocol, host} = window.location;
-        base = `${protocol}//${host}${baseUrl}`;
-    }
-    const url = new URL('http://test');
-    if (params) {
-        for (const [key, value] of Object.entries(params)) {
-            url.searchParams.append(key, value);
-        }
-    }
-    return `${base}?${url.searchParams.toString()}`;
-};
-
 // 动态注册/卸载 Vuex Store
-export const registerStoreModule = (moduleName: StoreModuleName, isRegister: boolean) => {
-    const targetModule = storeModules[moduleName];
-    if (!moduleName || !targetModule) {
-        return;
-    }
-    if (isRegister) {
-        if (!store.hasModule(targetModule.path)) {
-            store.registerModule(targetModule.path, targetModule.content);
-        }
-    } else {
-        if (store.hasModule(targetModule.path)) {
-            store.unregisterModule(targetModule.path);
-        }
-    }
-};
+// export const registerStoreModule = (moduleName: StoreModuleName, isRegister: boolean) => {
+//     const targetModule = storeModules[moduleName];
+//     if (!moduleName || !targetModule) {
+//         return;
+//     }
+//     if (isRegister) {
+//         if (!store.hasModule(targetModule.path)) {
+//             store.registerModule(targetModule.path, targetModule.content);
+//         }
+//     } else {
+//         if (store.hasModule(targetModule.path)) {
+//             store.unregisterModule(targetModule.path);
+//         }
+//     }
+// };
 
 // 处理车牌号，京a12345 → 京A·12345
 export const formatVehLicense = (str: string) => (str ? str.replace(/^((.{2})\W?)/, '$2·').toUpperCase() : str);
@@ -176,3 +158,25 @@ export const formatVehLicense = (str: string) => (str ? str.replace(/^((.{2})\W?
 // 处理速度、转向角、里程等数值的格式化
 export const formatSpeedNum = (number: any, digital = 0) =>
     +number || +number === 0 ? Math.max(0, mathRound(+number, digital)) : 0;
+
+// 转换el-tree数据格式
+export const convertTreeData = (data: any[], config: any) => {
+    let id = config.id || 'id';
+    let pid = config.pid || 'pid';
+    let children = config.children || 'children';
+    let idMap: any = {};
+    let jsonTree: any = [];
+    data.forEach((v: any) => {
+        idMap[v[id]] = v;
+    });
+    data.forEach((v: any) => {
+        let parent = idMap[v[pid]];
+        if (parent) {
+            !parent[children] && (parent[children] = []);
+            parent[children].push(v);
+        } else {
+            jsonTree.push(v);
+        }
+    });
+    return jsonTree;
+};
